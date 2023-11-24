@@ -708,7 +708,7 @@ def cmd_tag(args):
         tag_create(repo,
                    args.name,
                    args.object,
-                   type="object" if args.create_tag_object else "ref")
+                   args.create_tag_object)
     else:
         refs = ref_list(repo)
         show_ref(repo, refs["tags"], with_hash=False)
