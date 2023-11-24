@@ -1408,25 +1408,25 @@ def add(repo, paths, delete=True, skip_missing=False):
     # it over again.
     index = index_read(repo)
 
-    for (abspath, relpath) in clean_paths:
-      with open(abspath, "rb") as fd:
-        sha = object_hash(fd, b"blob", repo)
+  for (abspath, relpath) in clean_paths:
+    with open(abspath, "rb") as fd:
+      sha = object_hash(fd, b"blob", repo)
 
-      stat = os.stat(abspath)
+    stat = os.stat(abspath)
 
-      ctime_s = int(stat.st_ctime)
-      ctime_ns = stat.st_ctime_ns % 10**9
-      mtime_s = int(stat.st_mtime)
-      mtime_ns = stat.st_mtime_ns % 10**9
+    ctime_s = int(stat.st_ctime)
+    ctime_ns = stat.st_ctime_ns % 10**9
+    mtime_s = int(stat.st_mtime)
+    mtime_ns = stat.st_mtime_ns % 10**9
 
-      entry = GitIndexEntry(ctime=(ctime_s, ctime_ns), mtime=(mtime_s, mtime_ns), dev=stat.st_dev, ino=stat.st_ino,
-                            mode_type=0b1000, mode_perms=0o644, uid=stat.st_uid, gid=stat.st_gid,
-                            fsize=stat.st_size, sha=sha, flag_assume_valid=False,
-                            flag_stage=False, name=relpath)
-      index.entries.append(entry)
+    entry = GitIndexEntry(ctime=(ctime_s, ctime_ns), mtime=(mtime_s, mtime_ns), dev=stat.st_dev, ino=stat.st_ino,
+                        mode_type=0b1000, mode_perms=0o644, uid=stat.st_uid, gid=stat.st_gid,
+                        fsize=stat.st_size, sha=sha, flag_assume_valid=False,
+                        flag_stage=False, name=relpath)
+    index.entries.append(entry)
 
-    # Write the index back
-    index_write(repo, index)
+  # Write the index back
+  index_write(repo, index)
 
 argsp = argsubparsers.add_parser("commit", help="Record changes to the repository.")
 
