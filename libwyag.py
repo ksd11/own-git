@@ -592,9 +592,13 @@ def ls_tree(repo, ref, recursive=None, prefix=""):
 argsp = argsubparsers.add_parser("checkout", help="Checkout a commit inside of a directory.")
 
 argsp.add_argument("commit",
+                   default="HEAD",
+                   nargs="?",
                    help="The commit or tree to checkout.")
 
 argsp.add_argument("path",
+                   default=".",
+                   nargs="?",
                    help="The EMPTY directory to checkout on.")
 
 def cmd_checkout(args):
@@ -610,8 +614,9 @@ def cmd_checkout(args):
     if os.path.exists(args.path):
         if not os.path.isdir(args.path):
             raise Exception("Not a directory {0}!".format(args.path))
-        if os.listdir(args.path):
-            raise Exception("Not empty {0}!".format(args.path))
+        # TODO. may overlap file
+        # if os.listdir(args.path):
+        #     raise Exception("Not empty {0}!".format(args.path))
     else:
         os.makedirs(args.path)
 
